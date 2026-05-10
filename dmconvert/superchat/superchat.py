@@ -51,7 +51,7 @@ class SuperChat:
         """
         top_box_height = self.sc_font_size * 1.8
         upper_box = (
-            f"Dialogue: 0,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}{upper_box_color}\\p1\\bord0\\shad0}}m 0 {self.radius} "  # start point
+            f"Dialogue: 0,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}{upper_box_color}\\alpha&H60&\\p1\\bord0\\shad0}}m 0 {self.radius} "  # start point
             f"b 0 {self.radius/2} {self.radius/2} 0 {self.radius} 0 "  # the left-top corner
             f"l {self.msg_space_x - self.radius} 0 "  # the top line
             f"b {self.msg_space_x - self.radius/2} 0 {self.msg_space_x} {self.radius/2} {self.msg_space_x} {self.radius} "  # the right-top corner
@@ -68,7 +68,7 @@ class SuperChat:
         Args:
             user_name_color (str): the color of the user name
         """
-        user_name_line = f"Dialogue: 1,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}{user_name_color}\\bord0\\shad0}}{self.user_name}"
+        user_name_line = f"Dialogue: 1,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}{user_name_color}\\bord0\\shad1}}{self.user_name}"
         return user_name_line
 
     # Dialogue: 1,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(29,826)\c&H313131\fs30\bord0\shad0}SuperChat CNY 30
@@ -77,7 +77,7 @@ class SuperChat:
         Draw the price of the superchat.
         """
         # font_size = self.sc_font_size
-        superchat_price = f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,{{{effect}\\c&H313131\\bord0\\shad0}}SuperChat CNY {self.price}"
+        superchat_price = f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,{{{effect}\\c&H313131\\bord0\\shad1}}SuperChat CNY {self.price}"
         return superchat_price
 
     # example: Dialogue: 0,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(20,859)\p1\c&H321AAB\bord0\shad0}m 0 0 l 500 0 l 500 66 b 500 76 491 85 481 85 l 19 85b 9 85 0 76 0 66
@@ -90,7 +90,7 @@ class SuperChat:
             btm_box_height (int): the height of the lower box
         """
         lower_box = (
-            f"Dialogue: 0,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}\\p1{lower_box_color}\\bord0\\shad0}}m 0 0 "  # start point
+            f"Dialogue: 0,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}\\p1{lower_box_color}\\alpha&H60&\\bord0\\shad0}}m 0 0 "  # start point
             f"l {self.msg_space_x} 0 "  # the top line
             f"l {self.msg_space_x} {self.btm_box_height - self.radius} "  # the right line
             f"b {self.msg_space_x} {self.btm_box_height - self.radius/2} {self.msg_space_x - self.radius/2} {self.btm_box_height} {self.msg_space_x - self.radius} {self.btm_box_height} "  # the right-bottom corner
@@ -104,7 +104,7 @@ class SuperChat:
         """
         Draw the message of the superchat.
         """
-        superchat_message = f"Dialogue: 1,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}\\c&HFFFFFF\\bord0\\shad0}}{self.message}"
+        superchat_message = f"Dialogue: 1,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}\\c&HFFFFFF\\bord0\\shad1}}{self.message}"
         return superchat_message
 
     # def get_border_and_mask(start_time, end_time, self.msg_space_x, msg_height, border_color, mask_color):
