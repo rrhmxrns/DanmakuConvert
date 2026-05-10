@@ -25,6 +25,7 @@ Style: BTM,{font_name},{font_size},{primary_color},&H00FFFFFF,&H00000000,{back_c
 Style: SP,{font_name},{font_size},&H00FFFFFF,&H00FFFFFF,&H00000000,{back_color},{bold},0,0,0,100.00,100.00,0.00,0.00,1,{outline},{shadow},7,0,0,0,1
 Style: message_box,{font_name},{sc_font_size},&H00FFFFFF,&H00FFFFFF,&H00000000,{back_color},{bold},0,0,0,100.00,100.00,0.00,0.00,1,0.0,0.7,7,0,0,0,1
 Style: price,{font_name},{int(sc_font_size * 0.7)},&H00FFFFFF,&H00FFFFFF,&H00000000,{back_color},{bold},0,0,0,100.00,100.00,0.00,0.00,1,0.0,0.7,7,0,0,0,1
+Style: gift_box,{font_name},{sc_font_size},&H00FFFFFF,&H00FFFFFF,&H00000000,&H60202020,{bold},0,0,0,100.00,100.00,0.00,0.00,3,4,0,7,0,0,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

@@ -108,7 +108,7 @@ def print_gift_2_ass(
 ):
     # gift danmakus print to ass
     layer = 0
-    style = "message_box"
+    style = "gift_box"
     pos_x = 0  # left side
     height = resolution_y - height_num * font_size
 
