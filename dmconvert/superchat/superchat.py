@@ -71,13 +71,13 @@ class SuperChat:
         user_name_line = f"Dialogue: 1,{start_time},{end_time},message_box,,0000,0000,0000,,{{{effect}{user_name_color}\\bord0\\shad1}}{self.user_name}"
         return user_name_line
 
-    # Dialogue: 1,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(29,826)\c&H313131\fs30\bord0\shad0}SuperChat CNY 30
+    # Dialogue: 1,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(29,826)\c&H313131\fs30\bord0\shad0}¥30
     def draw_superchat_price(self, start_time, end_time, effect):
         """
-        Draw the price of the superchat.
+        Draw the price of the superchat (¥ + amount, right-aligned).
         """
-        # font_size = self.sc_font_size
-        superchat_price = f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,{{{effect}\\c&H313131\\bord0\\shad1}}SuperChat CNY {self.price}"
+        # \an9 switches anchor to top-right so the text grows leftward
+        superchat_price = f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,{{{effect}\\an9\\c&H313131\\bord0\\shad1}}¥{self.price}"
         return superchat_price
 
     # example: Dialogue: 0,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(20,859)\p1\c&H321AAB\bord0\shad0}m 0 0 l 500 0 l 500 66 b 500 76 491 85 481 85 l 19 85b 9 85 0 76 0 66
@@ -153,7 +153,7 @@ class SuperChat:
         effect_user_name_move = (
             f"\\move(20,{pre_user_name_position_y},20,{user_name_position_y})"
         )
-        effect_superchat_price_move = f"\\move(20,{pre_superchat_price_position_y},20,{superchat_price_position_y})"
+        effect_superchat_price_move = f"\\move({self.msg_space_x},{pre_superchat_price_position_y},{self.msg_space_x},{superchat_price_position_y})"
         effect_lower_box_move = (
             f"\\move(10,{pre_lower_box_position_y},10,{lower_box_position_y})"
         )
@@ -204,7 +204,7 @@ class SuperChat:
 
         effect_upper_box_position = f"\\pos(10,{upper_box_position_y})"
         effect_user_name_position = f"\\pos(20,{user_name_position_y})"
-        effect_superchat_price_position = f"\\pos(20,{superchat_price_position_y})"
+        effect_superchat_price_position = f"\\pos({self.msg_space_x},{superchat_price_position_y})"
         effect_lower_box_position = f"\\pos(10,{lower_box_position_y})"
         effect_superchat_msg_position = f"\\pos(20,{lower_box_position_y})"
 
