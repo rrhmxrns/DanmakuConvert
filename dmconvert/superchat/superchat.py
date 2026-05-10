@@ -74,10 +74,17 @@ class SuperChat:
     # Dialogue: 1,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(29,826)\c&H313131\fs30\bord0\shad0}¥30
     def draw_superchat_price(self, start_time, end_time, effect):
         """
-        Draw the price of the superchat (¥ + amount, right-aligned).
+        Draw the price of the superchat (¥<amount> (<battery>电池), right-aligned).
+        B 站官方风格：¥50 同埋灰色细字（500电池）。1 CNY = 10 电池。
         """
         # \an9 switches anchor to top-right so the text grows leftward
-        superchat_price = f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,{{{effect}\\an9\\c&H313131\\bord0\\shad1}}¥{self.price}"
+        battery = int(self.price) * 10
+        small_fs = int(self.sc_font_size * 0.65)
+        superchat_price = (
+            f"Dialogue: 1,{start_time},{end_time},price,,0000,0000,0000,,"
+            f"{{{effect}\\an9\\c&H313131\\bord0\\shad1}}¥{self.price}"
+            f"{{\\fs{small_fs}\\c&H888888&}} ({battery} 电池)"
+        )
         return superchat_price
 
     # example: Dialogue: 0,0:04:01.25,0:04:02.75,message_box,,0000,0000,0000,,{\pos(20,859)\p1\c&H321AAB\bord0\shad0}m 0 0 l 500 0 l 500 66 b 500 76 491 85 481 85 l 19 85b 9 85 0 76 0 66
