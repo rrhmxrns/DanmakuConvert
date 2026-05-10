@@ -82,6 +82,14 @@ def draw_normal_danmaku(
         danmaku_count = len(all_normal_danmaku)
         print(f"The normal danmaku pool is {danmaku_count}.", flush=True)
         for d in all_normal_danmaku:
+            # Initialize fallbacks so the variables are bound even when
+            # the danmaku is filtered out by display area / position
+            # checks below. Without this, accessing ``effect`` (or
+            # ``layer`` / ``style``) in draw_normal_danmaku raises
+            # UnboundLocalError when ``-d`` is less than 1.0.
+            effect = ""
+            layer = 0
+            style = "R2L"
             # Parse attributes
             p_attrs = d.get("p").split(",")
             appear_time = float(p_attrs[0])
