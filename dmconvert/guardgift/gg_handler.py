@@ -11,13 +11,19 @@ from .guard_and_gift import (
 def extract_gift_data(element):
     """extract the common attributes of gifts and guards"""
     fixed_time = 2  # the time of gift danmaku
+    # B站 XML price 单位系金瓜子，1 CNY = 1000 金瓜子
+    raw_price = element.get("price")
+    try:
+        price = str(int(raw_price) // 1000)
+    except (TypeError, ValueError):
+        price = raw_price
     data = {
         "appear_time": float(element.get("ts")),
         "over_time": float(element.get("ts")) + fixed_time,
         "user": element.get("user"),
         "name": element.get("giftname"),
         "count": int(element.get("giftcount" if element.tag == "gift" else "count")),
-        "price": element.get("price"),
+        "price": price,
         "move": 0,
         "height": 0,
         "move_time": -1,
