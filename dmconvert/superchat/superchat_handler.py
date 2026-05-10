@@ -36,6 +36,11 @@ def draw_superchat(ass_file, sc_font_size, resolution_y, root):
         appear_time = float(sc.get("ts"))
         user_name = sc.get("user")
         price = sc.get("price")
+        # B站 XML price 单位系金瓜子，1 CNY = 1000 金瓜子
+        try:
+            price = str(int(price) // 1000)
+        except (TypeError, ValueError):
+            pass
         disapper_time = float(sc.get("ts")) + float(sc.get("time"))
         text = sc.text
         processed_text, line_num = get_text_line_num(text)
