@@ -13,32 +13,39 @@ from .guard_and_gift import (
 def extract_gift_data(element):
     """extract the common attributes of gifts and guards"""
     fixed_time = 2  # the time of gift danmaku
+    # brec 输出嘅 <gift>/<guard> 顶层属性唔齐，要从 raw=JSON 兜底
+    raw_json = None
+    raw_attr = element.get("raw")
+    if raw_attr:
+        try:
+            raw_json = json.loads(raw_attr)
+        except (ValueError, TypeError):
+            pass
+
     # B站 XML price 单位系金瓜子，1 CNY = 1000 金瓜子
     raw_price = element.get("price")
-    # brec 输出嘅 <gift>/<guard> 顶层冇 price 属性，要从 raw=JSON 入面攞
-    if raw_price is None:
-        raw_attr = element.get("raw")
-        if raw_attr:
-            try:
-                data = json.loads(raw_attr)
-                rp = (
-                    data.get("price")
-                    or data.get("total_coin")
-                    or data.get("discount_price")
-                )
-                if rp is not None:
-                    raw_price = str(rp)
-            except (ValueError, TypeError):
-                pass
+    if raw_price is None and raw_json:
+        for k in ("price", "total_coin", "discount_price"):
+            if raw_json.get(k) is not None:
+                raw_price = str(raw_json[k])
+                break
     try:
         price = str(int(raw_price) // 1000)
     except (TypeError, ValueError):
         price = "0"
+
+    # guard 元素喺 brec 顶层冇 giftname，要从 raw JSON 嘅 gift_name 攞
+    name = element.get("giftname")
+    if name is None and raw_json:
+        name = raw_json.get("gift_name") or raw_json.get("giftName")
+    if name is None:
+        name = ""
+
     data = {
         "appear_time": float(element.get("ts")),
         "over_time": float(element.get("ts")) + fixed_time,
         "user": element.get("user"),
-        "name": element.get("giftname"),
+        "name": name,
         "count": int(element.get("giftcount" if element.tag == "gift" else "count")),
         "price": price,
         "move": 0,
