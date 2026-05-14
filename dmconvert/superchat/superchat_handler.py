@@ -1,5 +1,6 @@
 # Copyright (c) 2025 DanmakuConvert
 
+import json
 import math
 from .superchat import SuperChat
 
@@ -35,12 +36,24 @@ def draw_superchat(ass_file, sc_font_size, resolution_y, root):
     for sc in all_superchat:
         appear_time = float(sc.get("ts"))
         user_name = sc.get("user")
-        price = sc.get("price")
-        # B站 XML price 单位系金瓜子，1 CNY = 1000 金瓜子
-        try:
-            price = str(int(price) // 1000)
-        except (TypeError, ValueError):
-            pass
+        # B站 XML price: top attr 通常系金瓜子 (1 CNY = 1000 金瓜子)，
+        # 但有少数 SC 嘅 top attr 直接系 CNY (top == raw.price)。
+        # raw JSON 入面 price 永远系 CNY 单位，比 top attr 可靠。
+        raw_attr = sc.get("raw")
+        cny = None
+        if raw_attr:
+            try:
+                rj = json.loads(raw_attr)
+                if rj.get("price") is not None:
+                    cny = int(rj["price"])
+            except (ValueError, TypeError):
+                pass
+        if cny is None:
+            try:
+                cny = int(sc.get("price")) // 1000
+            except (TypeError, ValueError):
+                cny = 0
+        price = str(cny)
         disapper_time = float(sc.get("ts")) + float(sc.get("time"))
         text = sc.text
         processed_text, line_num = get_text_line_num(text)
