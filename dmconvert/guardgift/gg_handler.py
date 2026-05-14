@@ -1,5 +1,7 @@
 # Copyright (c) 2025 DanmakuConvert
 
+import json
+
 from .guard_and_gift import (
     merge_gifts,
     adjust_time_conflicts,
@@ -13,10 +15,25 @@ def extract_gift_data(element):
     fixed_time = 2  # the time of gift danmaku
     # B站 XML price 单位系金瓜子，1 CNY = 1000 金瓜子
     raw_price = element.get("price")
+    # brec 输出嘅 <gift>/<guard> 顶层冇 price 属性，要从 raw=JSON 入面攞
+    if raw_price is None:
+        raw_attr = element.get("raw")
+        if raw_attr:
+            try:
+                data = json.loads(raw_attr)
+                rp = (
+                    data.get("price")
+                    or data.get("total_coin")
+                    or data.get("discount_price")
+                )
+                if rp is not None:
+                    raw_price = str(rp)
+            except (ValueError, TypeError):
+                pass
     try:
         price = str(int(raw_price) // 1000)
     except (TypeError, ValueError):
-        price = raw_price
+        price = "0"
     data = {
         "appear_time": float(element.get("ts")),
         "over_time": float(element.get("ts")) + fixed_time,
