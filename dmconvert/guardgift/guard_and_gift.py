@@ -235,3 +235,6 @@ def generate_ass_line(gift, resolution_y, font_size):
             box_color=lower_box_color, box_width=box_width,
         )
         return line0 + line1
+    # move_status >= 3：被 3+ 个新 gift 推出屏幕，唔再渲染（避免返 None 炸 writelines）
+    else:
+        return ""
