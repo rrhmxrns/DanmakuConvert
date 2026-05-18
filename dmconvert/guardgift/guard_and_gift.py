@@ -81,6 +81,12 @@ def calculate_moves(gifts):
             # trigger the move of the existing active item
             for active_idx in active:
                 gift = gifts[active_idx]
+                # cap at max_layers: once the gift has been pushed off-screen
+                # (move == max_layers) further new arrivals must not bump it
+                # again, otherwise generate_ass_line falls through all branches
+                # and returns None
+                if gift["move"] >= max_layers:
+                    continue
                 gift["move"] += 1
                 gift["height"] += 1
 
